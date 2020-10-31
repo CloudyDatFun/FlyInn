@@ -1,0 +1,17 @@
+﻿.order {
+    width: 20rem;
+    max-height: 30rem;
+    overflow-y: auto;
+}
+
+.orderAdd {
+    border-style: dashed;
+    border-width: 3px;
+    overflow-y: hidden !important;
+}
+
+.container-scrollable {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+}

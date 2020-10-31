@@ -1,0 +1,113 @@
+﻿@page "/"
+
+@using FlyInn.Checkout.Shared 
+
+<div>
+    <h3>Außer Haus</h3>
+        <div class="row">
+        @if (this.OutOrders != null || this.OutOrders?.Count > 0)
+        {
+            @foreach (var outOrder in this.OutOrders)
+            {
+                <div class="card order m-3">
+                    <div class="card-body">
+                        <h5 class="card-title">@outOrder.Name</h5>
+                        @if (outOrder.DeliveryNote != string.Empty)
+                        {
+                            <h6 class="card-subtitle mb-2 text-muted">@outOrder.DeliveryNote</h6>
+                        }
+                    <ul class="fa-ul">
+                        @foreach (var item in outOrder.OrderItems)
+                        {
+                            <li>
+                                <div>@item.Name</div>
+                                @if (item.ExcludedIngredients.Any())
+                                {
+                                    <ul class="fa-ul" style="padding-left: 10px;">
+                                        @foreach (var excludes in item.ExcludedIngredients)
+                                        {
+                                            <li class="text-danger"><span class="fa-li"><i class="fas fa-times"></i></span>@excludes.Name</li>
+                                        }
+                                    </ul>
+                                }
+                                @if (item.AdditionalIngredients.Any())
+                                {
+                                    <ul class="fa-ul" style="padding-left: 10px;">
+                                        @foreach (var includes in item.AdditionalIngredients)
+                                        {
+                                            <li class="text-success"><span class="fa-li"><i class="fas fa-plus"></i></span>@includes.Name</li>
+                                        }
+                                    </ul>
+                                }
+                            </li>
+                        }
+                    </ul>
+                    </div>
+                </div>
+            }
+        }
+
+        <div class="card order orderAdd m-3">
+            <div class="card-body">
+                <div class="oi oi-plus d-flex justify-content-center" style="font-size: 30px; top: 50%; position: unset;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <h3>Restaurantbetrieb</h3>
+    @if (this.InhouseOrders != null || this.InhouseOrders?.Count > 0)
+    {
+        @foreach (var inOrder in this.InhouseOrders)
+        {
+            <div class="card">
+
+            </div>
+        }
+    }
+    else
+    {
+        <div>Loading...</div>
+    }
+</div>
+
+@code{
+    List<OutOfHouseOrder> OutOrders = new List<OutOfHouseOrder>()
+    {
+        new OutOfHouseOrder(
+            new List<MenuItem>()
+            {
+                new MenuItem(
+                    "Bacon&Egg Burger",
+                    8.90,
+                    new List<Ingredient>(),
+                    new List<Ingredient>() { new Ingredient("Bacon", 1.5) },
+                    new List<Ingredient>(){ new Ingredient("Tomate", 0) }),
+                new MenuItem(
+                    "Bacon Burger",
+                    8.90,
+                    new List<Ingredient>(),
+                    new List<Ingredient>() { new Ingredient("Bacon", 1.5) },
+                    new List<Ingredient>(){ new Ingredient("Gurke", 0) }),
+                new MenuItem(
+                    "Jungle Burger",
+                    8.90,
+                    new List<Ingredient>(),
+                    new List<Ingredient>() { new Ingredient("Bacon", 1.5) },
+                    new List<Ingredient>(){ new Ingredient("Soße", 0) }),
+                new MenuItem(
+                    "Cheese Burger",
+                    8.90,
+                    new List<Ingredient>(),
+                    new List<Ingredient>() { new Ingredient("Bacon", 1.5), new Ingredient("Käse", 1.5), new Ingredient("Käse", 1.5) },
+                    new List<Ingredient>(){ new Ingredient("Fleisch", 0) }),
+            },
+            new Address(37581, "Bad Gandersheim", "Heinrichstraße", 4, "Hillebrecht"), "Das ist die komsiche da"),
+        new OutOfHouseOrder(new List<MenuItem>(), new Address(37581, "Bad Gandersheim", "Heinrichstraße", 4, "Hillebrecht"), "Das ist die komsiche da"),
+        new OutOfHouseOrder(new List<MenuItem>(), new Address(37581, "Bad Gandersheim", "Heinrichstraße", 4, "Hillebrecht"), "Das ist die komsiche da"),
+        new OutOfHouseOrder(new List<MenuItem>(), new Address(37581, "Bad Gandersheim", "Heinrichstraße", 4, "Hillebrecht"), "Das ist die komsiche da"),
+    };
+
+    List<InhouseOrder> InhouseOrders;
+}
